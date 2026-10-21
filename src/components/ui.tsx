@@ -46,6 +46,6 @@ export function Marquee({compact=false}:{compact?:boolean}){
 return <div className="marq relative rounded-[1.75rem] border-4 border-deep bg-gradient-to-b from-panel2 to-panel py-2 shadow-[0_0_30px_rgba(255,0,255,.5),0_8px_0_rgba(0,0,0,.5)]">
 <Bulbs n={compact?14:16}/>
 <div className={`flex items-end justify-center gap-1 ${compact?'py-1':'py-2'}`} aria-label="Hype">{TL.map(([ch,col],i)=><motion.span key={i} animate={{y:[0,-6,0]}} transition={{repeat:Infinity,duration:1.8,delay:i*.1,ease:'easeInOut'}} className={`glow font-display leading-none ${compact?'text-3xl':'text-4xl sm:text-6xl'}`} style={{color:col}}>{ch}</motion.span>)}</div>
-<p className={`text-center font-pixel text-hot ${compact?'text-[.45rem]':'text-[.5rem] sm:text-xs'}`}>HINDUSTAN XR TELEVISION</p>
+<p className={`text-center font-pixel text-hot ${compact?'text-[.45rem]':'text-[.5rem] sm:text-xs'}`}>HINDUSTAN XR DIVISION</p>
 <p className={`mt-1 text-center font-pixel text-gold ${compact?'text-[.4rem]':'text-[.45rem] sm:text-[.65rem]'}`}>PLAY • INNOVATE • PUBLISH</p>
 <div className="mt-2"><Bulbs n={compact?14:16}/></div></div>}
