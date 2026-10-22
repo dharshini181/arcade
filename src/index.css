@@ -1,0 +1,130 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+
+:root{--hot:#FF69B4;--deep:#FF1493;--mag:#FF00FF;--fire:#FF4500;--gold:#FFD700;--night:#12000F;--snow:#FFF4FA}
+html,body{overscroll-behavior:none;background:#12000F;color:#FFF4FA;font-family:Rubik,system-ui,sans-serif;font-weight:500;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-text-size-adjust:100%;touch-action:manipulation}
+input{-webkit-user-select:text;user-select:text}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;font-family:inherit}
+button:disabled{cursor:default}
+button:focus-visible,input:focus-visible{outline:4px solid #FFD700;outline-offset:3px}
+.no-pan{touch-action:none}
+
+/* ---------- arcade building blocks ---------- */
+@layer components{
+.cab-btn{position:relative;min-height:3rem;border-radius:1rem;padding:0 1.25rem;font-family:Bungee,Impact,sans-serif;color:#12000F;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.55),inset 0 -3px 0 rgba(0,0,0,.18),0 5px 0 rgba(0,0,0,.65),0 8px 18px -4px currentColor}
+.cab-btn:disabled{filter:saturate(.35) brightness(.7);box-shadow:inset 0 2px 0 rgba(255,255,255,.25),0 3px 0 rgba(0,0,0,.65)}
+.lcd{font-family:'Press Start 2P',monospace;background:#12000F;color:#FFD700;border-radius:.75rem;padding:.55rem .7rem;
+  border:2px solid rgba(255,20,147,.7);box-shadow:inset 0 0 14px rgba(255,0,255,.35),0 0 12px rgba(255,20,147,.35);text-shadow:0 0 8px currentColor;
+  font-variant-numeric:tabular-nums;line-height:1}
+.chip{display:inline-flex;align-items:center;gap:.4rem;border-radius:9999px;border:2px solid currentColor;background:rgba(18,0,15,.75);
+  padding:.3rem .8rem;font-family:'Press Start 2P',monospace;font-size:.62rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.bezel{position:relative;border-radius:1.75rem;background:#1F0526;border:4px solid #FF1493;
+  box-shadow:0 0 0 3px #12000F,0 0 26px rgba(255,0,255,.45),inset 0 0 40px rgba(255,0,255,.18),0 10px 0 rgba(0,0,0,.5)}
+.crt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 62%,rgba(18,0,15,.55) 100%)}
+.glow{text-shadow:0 0 6px currentColor,0 0 18px currentColor}
+.blink{animation:blink 1.1s steps(2,jump-none) infinite}
+@keyframes blink{0%{opacity:1}50%{opacity:.4}100%{opacity:1}}
+
+}
+
+/* marquee bulbs */
+.bulb{width:.6rem;height:.6rem;border-radius:9999px;flex:none;animation:bulb 1s steps(1) infinite}
+.bulb:nth-child(odd){background:#FFD700;box-shadow:0 0 8px 2px #FFD700}
+.bulb:nth-child(even){background:#FF69B4;box-shadow:0 0 8px 2px #FF69B4;animation-delay:-.5s}
+@keyframes bulb{0%{opacity:1}50%{opacity:.25}}
+
+/* backdrop */
+.bg-sky{background:radial-gradient(120% 70% at 50% 0%,#4a0a5a 0%,#1F0526 45%,#12000F 100%)}
+.floor{position:absolute;left:-50%;right:-50%;bottom:0;height:46%;overflow:hidden;transform-origin:50% 100%;transform:perspective(380px) rotateX(62deg);
+  opacity:.34;-webkit-mask-image:linear-gradient(to top,#000 20%,transparent 100%);mask-image:linear-gradient(to top,#000 20%,transparent 100%)}
+.floor::before{content:"";position:absolute;left:0;right:0;top:-64px;bottom:0;will-change:transform;
+  background-image:linear-gradient(#FF00FF 2px,transparent 2px),linear-gradient(90deg,#FF00FF 2px,transparent 2px);background-size:64px 64px;animation:floor 2.4s linear infinite}
+@keyframes floor{to{transform:translateY(64px)}}
+.drift{position:absolute;animation:drift linear infinite;will-change:transform}
+@keyframes drift{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(-120vh) rotate(360deg)}}
+.sun{position:absolute;left:50%;bottom:30%;width:min(70vw,420px);aspect-ratio:1;transform:translateX(-50%);border-radius:9999px;opacity:.55;
+  background:linear-gradient(#FFD700 0%,#FF4500 45%,#FF1493 80%);
+  -webkit-mask-image:repeating-linear-gradient(#000 0 14px,transparent 14px 18px);mask-image:repeating-linear-gradient(#000 0 14px,transparent 14px 18px)}
+
+
+
+/* ---------- round arcade buttons (colour comes from --c) ---------- */
+.arc-btn{--c:#FF1493;position:relative;display:inline-grid;place-items:center;flex:none;width:3.6rem;height:3.6rem;border-radius:9999px;color:#12000F;border:3px solid #12000F;
+  background:radial-gradient(circle at 34% 26%,rgba(255,255,255,.85) 0,rgba(255,255,255,0) 26%),radial-gradient(circle at 50% 50%,var(--c) 55%,color-mix(in srgb,var(--c) 62%,#12000F) 100%);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 40%,#31093D),0 6px 0 3px color-mix(in srgb,var(--c) 35%,#12000F),0 10px 16px rgba(0,0,0,.55);
+  transition:transform .06s,box-shadow .06s,filter .15s}
+.arc-btn:active{transform:translateY(5px);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 40%,#31093D),0 1px 0 3px color-mix(in srgb,var(--c) 35%,#12000F),0 3px 6px rgba(0,0,0,.5)}
+.arc-btn.sm{width:2.75rem;height:2.75rem}
+.arc-btn[data-off=true]{filter:saturate(.55) brightness(.8)}
+.arc-btn[data-lit=true]{filter:brightness(1.12) drop-shadow(0 0 12px var(--c))}
+.led{position:absolute;top:-.25rem;right:-.25rem;width:.6rem;height:.6rem;border-radius:9999px;background:#31093D;border:1px solid #12000F}
+.led[data-on=true]{background:#FFD700;box-shadow:0 0 8px 2px #FFD700}
+
+/* small corner icon buttons (sound / music / full screen) */
+.mini{--c:#FFD700;position:relative;display:grid;place-items:center;flex:none;width:1.85rem;height:1.85rem;border-radius:9999px;color:#12000F;border:2px solid #12000F;
+  background:radial-gradient(circle at 34% 26%,rgba(255,255,255,.8) 0,rgba(255,255,255,0) 30%),radial-gradient(circle,var(--c) 55%,color-mix(in srgb,var(--c) 62%,#12000F) 100%);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 40%,#31093D),0 2px 0 2px color-mix(in srgb,var(--c) 35%,#12000F);transition:transform .06s,filter .15s}
+.mini{filter:drop-shadow(0 0 6px var(--c)) brightness(1.1)}
+.mini:active{transform:translateY(2px)}
+.mini[aria-current=page]{filter:drop-shadow(0 0 10px var(--c)) brightness(1.25);transform:scale(1.12)}
+/* toggles that are switched off keep glowing but get a slash */
+.mini[aria-pressed=false]::after{content:"";position:absolute;width:70%;height:2px;background:#12000F;border-radius:2px;transform:rotate(-45deg)}
+
+/* control deck at the bottom of the lobby */
+.deck{position:relative;border-radius:1.5rem 1.5rem 1rem 1rem;padding:.6rem .75rem .9rem;background:linear-gradient(180deg,#31093D 0,#1F0526 60%,#12000F 100%);
+  border:4px solid #FF1493;border-bottom-width:6px;box-shadow:0 0 0 3px #12000F,0 0 30px rgba(255,0,255,.5),inset 0 3px 0 rgba(255,255,255,.18),inset 0 0 24px rgba(255,0,255,.2)}
+.deck::before,.deck::after{content:"";position:absolute;bottom:.35rem;width:.45rem;height:.45rem;border-radius:9999px;background:#FFD700;box-shadow:inset -1px -1px 0 rgba(0,0,0,.5)}
+.deck::before{left:.45rem}.deck::after{right:.45rem}
+.coin{display:flex;align-items:center;gap:.5rem;border-radius:.6rem;border:2px solid #FF1493;background:#12000F;padding:.3rem .5rem;font-family:'Press Start 2P',monospace;font-size:.45rem;line-height:1.3;color:#FFD700}
+.coin i{display:block;width:.35rem;height:1.5rem;border-radius:.2rem;background:#FFD700;box-shadow:0 0 8px #FFD700,inset 0 0 0 1px #12000F}
+
+/* joystick */
+.joy{position:relative;width:4.5rem;height:4.6rem;flex:none}
+.joy-base{position:absolute;bottom:.15rem;left:50%;width:4rem;height:1.5rem;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at 50% 30%,#FF69B4,#31093D 70%);border:3px solid #12000F;box-shadow:0 0 0 3px #FF1493,0 5px 0 3px #12000F}
+.joy-stick{position:absolute;bottom:.9rem;left:50%;width:.6rem;height:2.1rem;margin-left:-.3rem;transform-origin:50% 100%;background:linear-gradient(90deg,#FFF4FA,#FF69B4);border-radius:.3rem;box-shadow:0 0 0 2px #12000F}
+.joy-ball{position:absolute;top:-1.9rem;left:50%;width:2.6rem;height:2.6rem;margin-left:-1.3rem;border-radius:50%;border:3px solid #12000F;
+  background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.9) 0,rgba(255,255,255,0) 24%),radial-gradient(circle,#FF4500 50%,#8a1f00 100%);box-shadow:0 0 14px rgba(255,69,0,.7)}
+
+/* DIP-switch style toggles in the settings list */
+.dip{position:relative;display:inline-block;width:2.75rem;height:1.5rem;border-radius:.4rem;background:#12000F;border:2px solid #FF1493;flex:none}
+.dip::after{content:"";position:absolute;top:.15rem;left:.15rem;width:1.05rem;height:.9rem;border-radius:.25rem;background:#FF69B4;transition:transform .15s}
+.dip[data-on=true]{border-color:#FFD700}.dip[data-on=true]::after{transform:translateX(1.35rem);background:#FFD700;box-shadow:0 0 8px #FFD700}
+
+/* ---------- playful scenery ---------- */
+.scn{position:absolute;will-change:transform}
+.wob{animation:wob 6s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-14px) rotate(5deg)}}
+.cross{animation:cross linear infinite}
+@keyframes cross{from{transform:translateX(-30vw)}to{transform:translateX(130vw)}}
+.rocket{animation:rocket linear infinite}
+@keyframes rocket{from{transform:translate(-15vw,105vh) rotate(45deg)}to{transform:translate(115vw,-25vh) rotate(45deg)}}
+.flame{transform-origin:50% 0;animation:flame .18s ease-in-out infinite alternate}
+@keyframes flame{to{transform:scaleY(1.6)}}
+.spin{animation:spin3d 1.6s ease-in-out infinite}
+@keyframes spin3d{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.1)}}
+.hop{animation:hop .9s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes hop{0%,100%{transform:translateY(0) scale(1.1,.88)}20%{transform:translateY(-6px) scale(.95,1.08)}50%{transform:translateY(-22px) scale(.95,1.06)}80%{transform:translateY(-4px) scale(.98,1.02)}}
+.twinkle{animation:twinkle 2.4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.15}50%{opacity:1}}
+.beam{animation:beam 2.2s ease-in-out infinite}
+@keyframes beam{0%,100%{opacity:.15}50%{opacity:.55}}
+
+@media (prefers-reduced-motion:reduce){.floor,.drift,.blink,.bulb,.wob,.cross,.rocket,.flame,.spin,.hop,.twinkle,.beam{animation:none!important}.cross{transform:translateX(60vw)}.rocket{display:none}}
+
+/* ---------- tablets, big screens, landscape phones ---------- */
+.lobby-pb{padding-bottom:1.5rem}
+@media (min-width:768px){
+  .arc-btn{width:4.4rem;height:4.4rem}.arc-btn.sm{width:3.2rem;height:3.2rem}
+  .deck{padding:.8rem 1.5rem 1.1rem}.joy{width:5.5rem;height:5.6rem}.joy-base{width:5rem}.coin{font-size:.55rem}.lobby-pb{padding-bottom:2rem}}
+@media (max-height:520px) and (orientation:landscape){
+  .lobby-pb{padding-bottom:1rem}
+  .deck{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.4rem .9rem .6rem}
+  .deck>div{margin:0!important}
+  .arc-btn{width:2.9rem;height:2.9rem}.joy{width:3.6rem;height:3.8rem}.joy-base{width:3.2rem}}
+.rail{position:fixed;top:0;bottom:0;width:1.1rem;z-index:1;pointer-events:none;display:none;
+  background:linear-gradient(90deg,#FF1493,#FF00FF);box-shadow:0 0 24px rgba(255,0,255,.6);
+  -webkit-mask-image:repeating-linear-gradient(#000 0 10px,transparent 10px 14px);mask-image:repeating-linear-gradient(#000 0 10px,transparent 10px 14px);opacity:.55}
+@media (min-width:1100px){.rail{display:block}}
+@media (max-height:520px) and (orientation:landscape){.marq .bulbs,.marq>p{display:none}.marq{padding:.1rem 0}.marq .font-display{font-size:1.7rem!important}}
